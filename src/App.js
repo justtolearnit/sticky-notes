@@ -23,7 +23,12 @@ const App = () => {
   ]);
 
   const addNote = (props) => {
-    console.log(props.state)
+    setNotes([...notes, {
+      id: nanoid(),
+      text: props.state,
+      date: "14/02/2021"
+    }])
+
   }
 
 
