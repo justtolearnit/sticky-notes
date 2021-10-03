@@ -1,15 +1,22 @@
 import { useState } from "react";
 
-const AddNote = ({addNoteHandler}) => {
+const AddNote = (props) => {
 
+    const {addNoteHandler} = props;
     const [notesText, setNotesText] = useState("")
-    
-    const changeHandler = (e) =>{
-        setNotesText(e.target.value)
+    const characterLimit = 200
+
+    const changeHandler = (e) => {
+        if (characterLimit - e.target.value.length >= 0) {
+            setNotesText(e.target.value)
+        }
     }
 
-    const saveClickHandler = () =>{
-        addNoteHandler({state:notesText})
+    const saveClickHandler = () => {
+        if (notesText.trim().length > 0) {
+            addNoteHandler({ state: notesText })
+            setNotesText("")
+        }
     }
     return (
         <div className="note new">
@@ -21,10 +28,9 @@ const AddNote = ({addNoteHandler}) => {
                 onChange={changeHandler} >
             </textarea>
             <div className="note-footer">
-                <small>200 Remaining</small>
+                <small>{characterLimit - notesText.length}</small>
                 <button className="save" onClick={saveClickHandler}>save</button>
             </div>
-
         </div>
     );
 }
